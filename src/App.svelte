@@ -5,6 +5,7 @@
 
   import Header from './header.svelte'
   import EatItem from './eat-item.svelte'
+  import Randomizer from './randomizer.svelte'
 
   // Set up local PouchDB and continuous replication to remote CouchDB
   let db = new PouchDB('db')
@@ -97,56 +98,84 @@
   input[type='text'] {
     width: 440px;
   }
+
+  .form-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
 </style>
 
 <Header>
+
+
 
 {#if isLoading}
   <h1>
     Loading your eats...
   </h1>
 {:else}
+  <details>
+    <summary>Edit eats</summary>
+
+    <div>
+      <label>Sort by:</label>
+      <select bind:value={sortByWhat}>
+        <option value='createdAt'>Time</option>
+        <option value='distance'>Distance</option>
+        <option value='price'>Price</option>
+      </select>
+    </div>
+
+
+    <ul>
+      {#each sortedAndFilteredEats as eat (eat._id)}
+        <EatItem eat={eat} on:remove={removeItem} on:update={updateStatus}/>
+      {/each}
+    </ul>
+
+    <form on:submit|preventDefault={add} class="add-form">
+      <div class="form-row">
+        <div class="form-element">
+          Name:
+          <input type='text' bind:value={newEatText}>
+        </div>
+
+
+        <div class="form-element">
+        Distance:
+        <select bind:value={newEatDistance}>
+          <option value=''>n/a</option>
+          <option value='near'>Near</option>
+          <option value='medium'>Medium</option>
+          <option value='far'>Far</option>
+        </select>
+        </div>
+
+        <div class="form-element">
+        Price:
+        <select bind:value={newEatPrice}>
+          <option value=''>n/a</option>
+          <option value='cheap'>Cheap</option>
+          <option value='pricey'>Pricey</option>
+        </select>
+        </div>
+      </div>
+
+      <button type='submit'>➕ Add new eat</button>
+    </form>
+    </details>
+    <br/>
+    <br/>
   {#if eats.length === 0}
     <h1>
-      Zero Eats! So hungry 🥙
+      Zero Eats! So hungry 🥙 <br/>Let's add some.
     </h1>
   {:else}
-    <h1>
-      Showing {sortedAndFilteredEats.length} of {eats.length} eats
-    </h1>
+    <Randomizer foodList={eats}/>
   {/if}
 {/if}
 
-<div>
-  <label>Sort by:</label>
-  <select bind:value={sortByWhat}>
-    <option value='createdAt'>Time</option>
-    <option value='distance'>Distance</option>
-    <option value='price'>Price</option>
-  </select>
-</div>
 
-
-<ul>
-  {#each sortedAndFilteredEats as eat (eat._id)}
-    <EatItem eat={eat} on:remove={removeItem} on:update={updateStatus}/>
-  {/each}
-</ul>
-
-<form on:submit|preventDefault={add}>
-  <input type='text' bind:value={newEatText}>
-
-  <select bind:value={newEatDistance}>
-    <option value='near'>Near</option>
-    <option value='medium'>Medium</option>
-    <option value='far'>Far</option>
-  </select>
-
-  <select bind:value={newEatPrice}>
-    <option value='cheap'>Cheap</option>
-    <option value='pricey'>Pricey</option>
-  </select>
-
-  <button type='submit'>➕ Add new eat</button>
-</form>
+  
 </Header>
