@@ -1,5 +1,7 @@
 <script>
+    import { getContext } from 'svelte';
 
+    let user = getContext('user');
 </script>
 
 <style>
@@ -18,30 +20,47 @@
 }
 
 
+.grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+    grid-template-areas: "header" "content";
+    height: 100%;
+}
+
 header {
     transform: skewY(-5deg) translateY(-2rem);
     padding: 4rem 2rem 1rem 2rem;
     background-color: var(--pink);
-    position: fixed;
+    position: sticky;
     top: 0;
     width: 100%;
+    grid-area: header; 
+    margin-bottom: -2rem;
 }
 
 main {
-    padding-top: 8.5rem;
-    padding-bottom: 50rem;
     text-align: center;
+    grid-area: content;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 2rem;
 }
 
 footer {
     background-color: var(--pink);
     text-align: center;
-    transform: skewY(-5deg) translateY(2rem);
-    padding: 0rem 1rem 2rem 1rem;
+    transform: skewY(-5deg) translateY(1.5rem);
+    padding: 0.5rem 1rem 2rem 1rem;
     color: #fff;
     position: fixed;
     bottom: 0;
     width: 100%;
+    letter-spacing: 0.03em;
+}
+footer p {
+    margin: 0;
 }
 
 footer a {
@@ -77,6 +96,9 @@ h1 {
     </main>
 
     <footer>
+    {#if user}
+        {user.displayName}
+    {/if}
         <p>Built by <a href="https://www.grooovinger.com">Grooovinger</a></p>
     </footer>
 </div>
