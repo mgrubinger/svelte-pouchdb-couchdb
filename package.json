@@ -18,7 +18,10 @@
     "dev": "webpack-dev-server --content-base public"
   },
   "dependencies": {
+    "firebase": "^6.0.4",
     "lodash": "^4.17.11",
-    "pouchdb-browser": "^7.0.0"
+    "pouchdb-browser": "^7.0.0",
+    "rxfire": "^3.4.8",
+    "rxjs": "^6.5.2"
   }
 }

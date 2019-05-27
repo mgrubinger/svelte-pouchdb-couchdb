@@ -23,7 +23,10 @@
   //   })
   // }
 
-  export let eat
+  export let name
+  export let distance
+  export let price
+
 </script>
 
 <style>
@@ -40,8 +43,8 @@
 
 <li transition:fade>
   <!-- <input type='text' on:keyup={debouncedUpdateText} bind:value={eat.text}> -->
-  <strong>{eat.text}</strong>
-  {eat.distance}
-  {eat.price}
+  <strong>{name}</strong>
+  {distance}
+  {price}
   <button on:click={remove}>❌</button>
 </li>
