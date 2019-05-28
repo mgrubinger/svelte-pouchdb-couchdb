@@ -1,18 +1,19 @@
 <script>
-    import { setContext } from 'svelte';
-
     import Profile from './Profile.svelte';
     import Eats from './Eats.svelte';
+
+    import {user} from './stores.js'
 
     import { auth, googleProvider } from './firebase';
     import { authState } from 'rxfire/auth';
 
-    let user;
-
+    let myuser;
     const unsubscribe = authState(auth).subscribe(u => {
-        user = u;
-        setContext('user', user);
+        myuser = u
+        user.set(u);
     });
+
+    console.log(process.env.APP_ENV);
 
     function login() {
         auth.signInWithPopup(googleProvider);
@@ -47,10 +48,12 @@ button {
 </style>
 
 <section>
-    {#if user}
-        <Profile {...user} />
+    {#if myuser}
+
+        <Profile {...myuser} />
         <button on:click={ () => auth.signOut() }>Logout</button>
-        <Eats uid={user.uid} />
+        <Eats uid={myuser.uid} />
+
     {:else}
 
         <p class="tagline">

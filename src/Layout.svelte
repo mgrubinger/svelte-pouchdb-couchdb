@@ -1,7 +1,12 @@
 <script>
     import { getContext } from 'svelte';
 
-    let user = getContext('user');
+    import {user} from './stores.js'
+    let myuser;
+
+    user.subscribe(value => {
+        myuser = value
+    });
 </script>
 
 <style>
@@ -96,8 +101,8 @@ h1 {
     </main>
 
     <footer>
-    {#if user}
-        {user.displayName}
+    {#if myuser}
+        {myuser.displayName}
     {/if}
         <p>Built by <a href="https://www.grooovinger.com">Grooovinger</a></p>
     </footer>

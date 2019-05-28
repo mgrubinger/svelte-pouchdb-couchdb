@@ -1,7 +1,11 @@
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const DefinePlugin = require('webpack/lib/DefinePlugin');
 
 const mode = process.env.NODE_ENV || 'development';
 const prod = mode === 'production';
+
+require('dotenv').config()
+console.log(process.env.APP_ENV)
 
 module.exports = {
 	entry: {
@@ -45,6 +49,15 @@ module.exports = {
 	plugins: [
 		new MiniCssExtractPlugin({
 			filename: '[name].css'
+		}),
+		new DefinePlugin({
+			"FB_API_KEY": JSON.stringify(process.env.FB_API_KEY),
+			"FB_AUTH_DOMAIN": JSON.stringify(process.env.FB_AUTH_DOMAIN), 
+			"FB_DATABASE_URL": JSON.stringify(process.env.FB_DATABASE_URL),
+			"FB_PROJECT_ID": JSON.stringify(process.env.FB_PROJECT_ID),
+			"FB_STORAGE_BUCKET": JSON.stringify(process.env.FB_STORAGE_BUCKET),
+			"FB_MESSAGING_SENDER_ID": JSON.stringify(process.env.FB_MESSAGING_SENDER_ID),
+			"FB_APP_ID": JSON.stringify(process.env.FB_APP_ID) 
 		})
 	],
 	devtool: prod ? false: 'source-map'
