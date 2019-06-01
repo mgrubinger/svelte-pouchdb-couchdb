@@ -54,7 +54,7 @@ let getRandomFood = () => {
     
     {#if chosenFood}
     <div in:fly="{{ y: 200, duration: 2000, opacity: 0, easing: cubicOut }}">
-        <h1>{chosenFood.text}</h1>
+        <h1>{chosenFood.name}</h1>
         <p>
             Distance: {chosenFood.distance}<br/>
             Price: {chosenFood.price}

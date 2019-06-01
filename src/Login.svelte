@@ -1,6 +1,5 @@
 <script>
     import Profile from './Profile.svelte';
-    import Eats from './Eats.svelte';
 
     import {user} from './stores.js'
 
@@ -46,13 +45,7 @@ button {
 </style>
 
 <section>
-    {#if myuser}
-
-        <!-- <Profile {...myuser} />
-        <button on:click={ () => auth.signOut() }>Logout</button> -->
-        <!-- <Eats uid={myuser.uid} /> -->
-
-    {:else}
+    {#if !myuser}
 
         <p class="tagline">
             Can't decide what to eat?

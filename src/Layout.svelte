@@ -83,6 +83,7 @@ main {
     text-align: center;
     grid-area: content;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     padding-bottom: 2rem;
