@@ -4,16 +4,18 @@
     import { db } from './firebase';
     import { collectionData } from 'rxfire/firestore';
     import { startWith } from 'rxjs/operators';
+    import { getContext } from 'svelte';
+    import {eatsStore} from './stores.js'
 
-    export let uid;
 
     let newEatText = '';
     let newEatDistance = null;
     let newEatPrice = null;
 
-    const query = db.collection('eats').where('uid', '==', uid).orderBy('created');
-
-    const eats = collectionData(query, 'id').pipe(startWith([]));
+    // eatsStore.subscribe(value => {
+    //     console.log({value});
+    //     eats = value;
+    // });
 
     function add() {
         db.collection('eats').add({ uid, name: newEatText, price: newEatPrice, distance: newEatDistance, created: Date.now() });
@@ -44,12 +46,15 @@
     }
 </style>
 
-<ul>
-	{#each $eats as eat}
-
+<ul id="aaaa">
+    {#each $eatsStore as eat}
+        {eat.name}
+    {/each}
+	<!-- {#each eatsStore as eat}
+    
         <EatItem {...eat} on:remove={removeItem} on:toggle={updateStatus} />
         
-	{/each}
+	{/each} -->
 </ul>
 
 

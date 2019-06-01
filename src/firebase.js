@@ -11,7 +11,6 @@ const firebaseConfig = {
     appId: FB_APP_ID
   };
 
-  console.log(firebaseConfig);
 firebase.initializeApp(firebaseConfig);
 
 export const auth = firebase.auth();

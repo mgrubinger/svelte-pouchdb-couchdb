@@ -13,8 +13,6 @@
         user.set(u);
     });
 
-    console.log(process.env.APP_ENV);
-
     function login() {
         auth.signInWithPopup(googleProvider);
     }
@@ -50,9 +48,9 @@ button {
 <section>
     {#if myuser}
 
-        <Profile {...myuser} />
-        <button on:click={ () => auth.signOut() }>Logout</button>
-        <Eats uid={myuser.uid} />
+        <!-- <Profile {...myuser} />
+        <button on:click={ () => auth.signOut() }>Logout</button> -->
+        <!-- <Eats uid={myuser.uid} /> -->
 
     {:else}
 

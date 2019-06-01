@@ -1,13 +1,48 @@
 <script>
-    import { getContext } from 'svelte';
+import { auth } from './firebase';
 
-    import {user} from './stores.js'
-    let myuser;
+import Profile from './Profile.svelte'
+import {user} from './stores.js'
+let myuser;
 
-    user.subscribe(value => {
-        myuser = value
-    });
+user.subscribe(value => {
+    myuser = value
+});
+
+const logout = () => {
+    auth.logout()
+}
+
 </script>
+
+
+<svelte:head>
+    <link href="https://fonts.googleapis.com/css?family=Bangers&display=swap" rel="stylesheet">
+</svelte:head>
+
+<div class="grid">
+    <header>
+
+        <h1>
+            What are we going to eat today?<br/>
+        </h1>
+
+    </header>
+    <main>
+        <slot></slot>
+    </main>
+
+    <footer>
+        {#if myuser}
+            <div class="profile">
+                <Profile class="profile" {...myuser}></Profile>
+                <button class="logout-button" on:click={ () => auth.signOut() }>Logout</button>
+            </div>
+        {/if}
+        <p>Built by <a href="https://www.grooovinger.com">Grooovinger</a></p>
+    </footer>
+</div>
+
 
 <style>
 
@@ -81,29 +116,23 @@ h1 {
     letter-spacing: 0.03em;
 }
 
+.profile {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.logout-button {
+    margin-top: 0.5rem;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    text-decoration: underline;
+    color: #fff;
+}
+
 </style>
-
-
-<svelte:head>
-    <link href="https://fonts.googleapis.com/css?family=Bangers&display=swap" rel="stylesheet">
-</svelte:head>
-
-<div class="grid">
-    <header>
-
-        <h1>
-        What are we going to eat today?<br/>
-        </h1>
-
-    </header>
-    <main>
-        <slot></slot>
-    </main>
-
-    <footer>
-    {#if myuser}
-        {myuser.displayName}
-    {/if}
-        <p>Built by <a href="https://www.grooovinger.com">Grooovinger</a></p>
-    </footer>
-</div>
