@@ -14,20 +14,23 @@ $: chosenFood = null;
 
 function rand(timeout) {
 
-    if(timeout > 400) {
+    // stop emojis and show random food
+    if(timeout > 300) {
         disabled = false;
         getRandomFood()
         currentFoodEmoji = "";
         return;
-    } 
+    }
+    
+    // call the next iteration
     window.setTimeout(() => {
         currentFoodEmoji = foodEmojiList[random(0, foodEmojiList.length-1)];
         timeout *= 1.08;
         rand(timeout)
     }, timeout);
 }
-// kick it off
 
+// kick it off
 let go = () => {
     disabled = true;
     chosenFood = null;
@@ -48,17 +51,19 @@ let getRandomFood = () => {
 
 <section>
     <button {disabled} on:click={go}>Shuffle!</button>
+
     <div class="randomfood">
-    {currentFoodEmoji}
+        {currentFoodEmoji}
     </div>
     
     {#if chosenFood}
     <div in:fly="{{ y: 200, duration: 2000, opacity: 0, easing: cubicOut }}">
         <h1>{chosenFood.name}</h1>
         <p>
-            Distance: {chosenFood.distance}<br/>
-            Price: {chosenFood.price}
+            {#if chosenFood.distance}Distance: {chosenFood.distance}<br/>{/if}
+            {#if chosenFood.price}Price: {chosenFood.price}{/if}
         </p>
 	</div>
     {/if}
+
 </section>

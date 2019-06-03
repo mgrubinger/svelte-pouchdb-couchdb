@@ -14,7 +14,8 @@
   let myuser = {};
   $: eats = [];
 
-  let mode = Editor; // or Randomizer
+  // let mode = Editor; // or Randomizer
+  let mode = Randomizer; // or Randomizer
 
   user.subscribe(value => {
     myuser = value;
@@ -47,7 +48,7 @@
 
   <Login />
 
-  <svelte:component this={mode}/>
+  <svelte:component this={mode} foodList={eats}/>
   <!-- <Editor uid={myuser.uid} /> -->
 
   <!-- <Randomizer foodList={eats}/> -->
